@@ -4,16 +4,15 @@ import matplotlib.pyplot as plt
 
 class Wheel:
 
-    def __init__(self, r):
-        self.point = Point(0, 0)
-        self.r = r
-        self.V = 0
-        self.drawPoint = plt.Circle((self.point.getX(), self.point.getY()), r*2, color='black')
-
-    def __init__(self, r, point):
+    def __init__(self, r, point, side):
         self.point = point
         self.r = r
-        self.drawPoint = plt.Circle((self.point.getX(), self.point.getY()), r*2, color='black')
+
+        if side == 'r':
+            color = "red"
+        else:
+            color = "green"
+        self.drawPoint = plt.Circle((self.point.getX(), self.point.getY()), r*2, color=color)
 
     def setNewPoint(self, point):
         self.point = point

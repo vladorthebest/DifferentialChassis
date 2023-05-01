@@ -14,8 +14,8 @@ class DifferentialChassis:
         # Wheel
         startL = Point(0, self.T.getY() - (l/2) )
         startR = Point(0, self.T.getY() + (l/2) )
-        self.wheelR = Wheel(r, startL)
-        self.wheelL = Wheel(r, startR)
+        self.wheelR = Wheel(r, startL, 'r')
+        self.wheelL = Wheel(r, startR, 'l')
 
         # Speed
         self.Wt = 0
