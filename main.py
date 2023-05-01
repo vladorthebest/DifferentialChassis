@@ -1,8 +1,13 @@
 from Chassis import DifferentialChassis
+from Road import Road
+
 
 def main():
-    chassis = DifferentialChassis(d=50, l=200)
+    chassis = DifferentialChassis(r=50, l=300)
+    road = Road()
+    road.drawChassis(chassis)
     print(chassis)
+    road.showPlot()
 
 if __name__ == "__main__":
    

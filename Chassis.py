@@ -3,7 +3,7 @@ from Wheel import Wheel
 
 class DifferentialChassis:
 
-    def __init__(self, d, l):
+    def __init__(self, r, l):
 
         # Parameters
         self.l = l
@@ -14,8 +14,8 @@ class DifferentialChassis:
         # Wheel
         startL = Point(0, self.T.getY() - (l/2) )
         startR = Point(0, self.T.getY() + (l/2) )
-        self.wheelR = Wheel(d, startL)
-        self.wheelL = Wheel(d, startR)
+        self.wheelR = Wheel(r, startL)
+        self.wheelL = Wheel(r, startR)
 
         # Speed
         self.Wt = 0
@@ -23,6 +23,8 @@ class DifferentialChassis:
         self.Vl = 0
         self.Vt = 0
 
+    def getWheels(self):
+        return (self.wheelL, self.wheelR)
 
 
 
