@@ -24,6 +24,8 @@ class Road:
         wheelr = (wheels[0]).getDrawPoint()
         wheell = (wheels[1]).getDrawPoint()
 
+        
+        self.ax.add_artist(chassis.getDrawLine())
         self.ax.add_artist(wheelr)
         self.ax.add_artist(wheell)
 
