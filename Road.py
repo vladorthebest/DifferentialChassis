@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 
 class Road:
     def __init__(self):
-        self.MAX_X = 5 * 1000
-        self.MAX_Y = 5 * 1000
+        self.MAX_X = 2 * 1000
+        self.MAX_Y = 2 * 1000
         # Create Road
         fig, ax = plt.subplots()
         self.ax = ax
@@ -19,7 +19,7 @@ class Road:
 
         
 
-    def drawChassis(self, chassis):
+    def drawChassis(self, chassis, t=1):
         self.chassis = chassis
         wheels = chassis.getWheels()
         wheelr = (wheels[0]).getDrawPoint()
@@ -34,7 +34,7 @@ class Road:
         self.ax.set_xlim(-self.MAX_X, self.MAX_X)
         self.ax.set_ylim(-self.MAX_X, self.MAX_X)
         plt.draw()
-        plt.pause(2)
+        plt.pause(t)
         self.fig.canvas.draw()
     
 

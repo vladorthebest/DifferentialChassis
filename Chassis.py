@@ -55,8 +55,17 @@ class DifferentialChassis:
         self.Angle = self.Angle + dAngle
 
     def updateWheels(self):
-        self.wheelR.setNewPoint(Point(self.T.getX(), self.T.getY() + (self.l/2)))
-        self.wheelL.setNewPoint(Point(self.T.getX(), self.T.getY() - (self.l/2)))
+        # New X Y for Right
+        x = self.T.getX() + (self.l/2) * math.sin(self.Angle)
+        y = self.T.getY() + (self.l/2) * -math.cos(self.Angle)
+        self.wheelR.setNewPoint(Point(x, y))
+        
+        # New X Y for Left
+        x = self.T.getX() + (self.l/2) * -math.sin(self.Angle)
+        y = self.T.getY() + (self.l/2) * math.cos(self.Angle)
+        self.wheelL.setNewPoint(Point(x, y))
+
+
         self.drawLine.set_data(
             (self.wheelL.getPoint().getX(), self.wheelR.getPoint().getX()),
             (self.wheelL.getPoint().getY(), self.wheelR.getPoint().getY())
