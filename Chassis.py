@@ -33,12 +33,13 @@ class DifferentialChassis:
             (self.wheelL.getPoint().getY(), self.wheelR.getPoint().getY(),),
             color='black'
         )
+        self.centerPoint = plt.Circle((self.T.getX(), self.T.getY()), r/2, color='black')
 
     def getWheels(self):
         return (self.wheelL, self.wheelR)
 
-    def getDrawLine(self):
-        return self.drawLine
+    def getDrawList(self):
+        return (self.drawLine, self.centerPoint)
 
     def updateVt(self):
         self.Vt = (self.Vr + self.Vl)/2
@@ -70,6 +71,7 @@ class DifferentialChassis:
             (self.wheelL.getPoint().getX(), self.wheelR.getPoint().getX()),
             (self.wheelL.getPoint().getY(), self.wheelR.getPoint().getY())
         )
+        self.centerPoint.center =  (self.T.getX(), self.T.getY())
 
 
     def newPosition(self, dt, Vl, Vr):
