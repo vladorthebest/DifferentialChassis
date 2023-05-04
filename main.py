@@ -28,8 +28,9 @@ def def1():
 def main():
     road = Road()
     chassis = DifferentialChassis(r=50, l=300, road=road)
-    way = OrderedDict()
-    way["Line"] = (2000, 0)
+    way = []
+    way.append(('Line', 2000, 90, 6))
+    way.append(('Line', 2000, 0, 10))
     chassis.way(way)
 
 if __name__ == "__main__":

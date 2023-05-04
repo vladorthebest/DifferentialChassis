@@ -2,6 +2,7 @@ from Point import Point
 from Wheel import Wheel
 import matplotlib.pyplot as plt
 import math 
+import time
 
 
 class DifferentialChassis:
@@ -82,8 +83,6 @@ class DifferentialChassis:
         self.updateVWt()
         self.updateAngle(dt)
 
-
-        print(self.Angle)
         Vx = self.Vt * math.cos(self.Angle)
         Vy = self.Vt * math.sin(self.Angle)
 
@@ -95,20 +94,43 @@ class DifferentialChassis:
         self.road.drawChassis(self, dt)
 
 
-    def way(self, way, avgSpeed=200):
-        for type, value in way.items():
-            if type == 'Line':
-                self.wayLine(value, avgSpeed)
+    def way(self, way):
+        time.sleep(2)
+        for value in way:
+            if value[0] == 'Line':
+                self.wayLine(value)
 
 
-    def wayLine(self, value, avgSpeed):
-
-        l = value[0]
-        angl = value[1]
-
-        t = l/avgSpeed
+    def wayLine(self, value):
         td = 1
+        self.newPosition(td, 0, 0)
+        l = value[1]
+        angle = value[2]
+        t = value[3]
+        
+        if self.Angle != angle:
+            t = t/2
+            self.turn(angle, t, td)
+        
+        speed = l/t
         tnow = 0
         while(tnow < t):
-            self.newPosition(td, avgSpeed, avgSpeed)
+            self.newPosition(td, speed, speed)
             tnow += td
+
+    def turn(self, angle, t, dt):
+        dangle = math.radians(angle) - self.Angle
+        self.Wt = dangle / (t / dt)
+        print(dangle)
+        Vr = self.Wt * self.l / 2
+        Vl = -1 * Vr
+
+        tnow = 0
+        while(tnow < t):
+            self.newPosition(dt, Vl, Vr)
+            tnow += dt
+
+
+
+        
+        
