@@ -6,7 +6,9 @@ import math
 
 class DifferentialChassis:
 
-    def __init__(self, r, l):
+    def __init__(self, r, l, road):
+        # Road
+        self.road = road
 
         # Parameters
         self.l = l #mm
@@ -90,7 +92,23 @@ class DifferentialChassis:
         self.T.setX(Xt)
         self.T.setY(Yt)
         self.updateWheels()
-        print(self.T)
+        self.road.drawChassis(self, dt)
 
 
+    def way(self, way, avgSpeed=200):
+        for type, value in way.items():
+            if type == 'Line':
+                self.wayLine(value, avgSpeed)
 
+
+    def wayLine(self, value, avgSpeed):
+
+        l = value[0]
+        angl = value[1]
+
+        t = l/avgSpeed
+        td = 1
+        tnow = 0
+        while(tnow < t):
+            self.newPosition(td, avgSpeed, avgSpeed)
+            tnow += td
