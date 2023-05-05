@@ -29,6 +29,7 @@ class DifferentialChassis:
         self.Vr = 0
         self.Vl = 0
         self.Vt = 0
+        self.deltaT = 1 # sec
 
         # Draw
         self.drawLine = plt.Line2D(
@@ -38,15 +39,23 @@ class DifferentialChassis:
         )
         self.centerPoint = plt.Circle((self.T.getX(), self.T.getY()), r/2, color='black')
 
+        self.clearRoad = True
+
     def getWheels(self):
         return (self.wheelL, self.wheelR)
 
     def getDrawList(self):
-        return (self.drawLine, self.centerPoint)
+        arr = []
+        arr.append(self.drawLine)
+        arr.append(self.centerPoint)
+        return arr
 
     def updateVt(self):
         self.Vt = (self.Vr + self.Vl)/2
-    
+
+    def setClearRoad(self, arg):
+        self.clearRoad = arg
+
     def updateWt(self):
         self.Wt = (self.Vr - self.Vl)/self.l
 
@@ -75,7 +84,9 @@ class DifferentialChassis:
             (self.wheelL.getPoint().getY(), self.wheelR.getPoint().getY())
         )
         self.centerPoint.center =  (self.T.getX(), self.T.getY())
-
+    
+    def getT(self):
+        return self.T
 
     def newPosition(self, dt, Vl, Vr):
         self.Vr = Vr 
@@ -91,8 +102,7 @@ class DifferentialChassis:
         self.T.setX(Xt)
         self.T.setY(Yt)
         self.updateWheels()
-        self.road.drawChassis(self, dt)
-
+        self.road.drawChassis(self, dt, clear = self.clearRoad)
 
     def way(self, way):
         time.sleep(2)
@@ -102,35 +112,33 @@ class DifferentialChassis:
             elif value[0] == 'Arc':
                 self.wayArc(value)
 
-
     def wayLine(self, value):
-        td = 1
-        self.newPosition(td, 0, 0)
+        self.newPosition(self.deltaT, 0, 0)
         l = value[1]
         angle = value[2]
         t = value[3]
         
-        if self.Angle != angle:
+        if self.Angle != math.radians(angle):
             t = t/2
-            self.turn(angle, t, td)
+            self.turn(angle, t)
         
         speed = l/t
         tnow = 0
         while(tnow < t):
-            self.newPosition(td, speed, speed)
-            tnow += td
+            self.newPosition(self.deltaT, speed, speed)
+            tnow += self.deltaT
 
-    def turn(self, angle, t, dt):
+    def turn(self, angle, t):
         dangle = math.radians(angle) - self.Angle
-        self.Wt = dangle / (t / dt)
-        print(dangle)
+        self.Wt = dangle / (t / self.deltaT)
+
         Vr = self.Wt * self.l / 2
         Vl = -1 * Vr
 
         tnow = 0
         while(tnow < t):
-            self.newPosition(dt, Vl, Vr)
-            tnow += dt
+            self.newPosition(self.deltaT, Vl, Vr)
+            tnow += self.deltaT
 
     def calc_wheel_speeds(self, R, angle, t):
         reversed = 1
@@ -151,11 +159,9 @@ class DifferentialChassis:
         return left_wheel_speed, right_wheel_speed
 
     def wayArc(self, value):
-        td = 0.1
-
-        self.newPosition(td, 0, 0)
+        self.newPosition(self.deltaT, 0, 0)
         r = value[1]
-        # angle = math.radians(value[2] / 2)
+
         angle = value[2]
         time = value[3]
 
@@ -163,8 +169,11 @@ class DifferentialChassis:
 
         tnow = 0
         while(tnow < time):
-            self.newPosition(td, Vl, Vr)
-            tnow += td
+            self.newPosition(self.deltaT, Vl, Vr)
+            tnow += self.deltaT
+        
+    def setDeltaT(self, arg):
+        self.deltaT = arg
 
 
 
