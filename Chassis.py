@@ -132,7 +132,7 @@ class DifferentialChassis:
         dangle = math.radians(angle) - self.Angle
         self.Wt = dangle / (t / self.deltaT)
 
-        Vr = self.Wt * self.l / 2
+        Vr = self.Wt * self.l
         Vl = -1 * Vr
 
         tnow = 0
