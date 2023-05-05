@@ -1,13 +1,13 @@
 from Chassis import DifferentialChassis
 from Road import Road
 from collections import OrderedDict
-
+import math
 
 def def1():
     road = Road()
     chassis = DifferentialChassis(r=50, l=300, road=road)
     
-    tc = 0.5
+    tc = 1
     # t = [0, 5, 10, 15, 20, 25]
     # Vl = [0, 200, -100, 100, 100]
     # Vr = [0, 200, 200, 100, -200]
@@ -29,10 +29,19 @@ def main():
     road = Road()
     chassis = DifferentialChassis(r=50, l=300, road=road)
     way = []
-    way.append(('Line', 2000, 90, 6))
-    way.append(('Line', 2000, 0, 10))
+    way.append(('Arc', 500, 90, 10))
+    way.append(('Line', 200, 0, 10))
+    way.append(('Arc', 500, -90, 10))
+    
     chassis.way(way)
+
 
 if __name__ == "__main__":
     # def1()
     main()
+
+
+
+
+
+

@@ -82,7 +82,7 @@ class DifferentialChassis:
         self.Vl = Vl
         self.updateVWt()
         self.updateAngle(dt)
-
+        print(self.Angle)
         Vx = self.Vt * math.cos(self.Angle)
         Vy = self.Vt * math.sin(self.Angle)
 
@@ -99,6 +99,8 @@ class DifferentialChassis:
         for value in way:
             if value[0] == 'Line':
                 self.wayLine(value)
+            elif value[0] == 'Arc':
+                self.wayArc(value)
 
 
     def wayLine(self, value):
@@ -129,6 +131,40 @@ class DifferentialChassis:
         while(tnow < t):
             self.newPosition(dt, Vl, Vr)
             tnow += dt
+
+    def calc_wheel_speeds(self, R, angle, t):
+        reversed = 1
+        if angle < 0:
+            reversed = -1
+            angle = angle * (-1)
+        # Вычисляем линейную скорость робота по дуге
+        linear_velocity = R * math.radians(angle) / t
+
+        # Вычисляем угловую скорость робота по дуге
+        angular_velocity = math.radians(angle) / t
+
+        # Вычисляем скорости левого и правого колес
+        left_wheel_speed = (linear_velocity - 0.5 * angular_velocity * self.l * reversed)
+        right_wheel_speed = (linear_velocity + 0.5 * angular_velocity * self.l * reversed)
+
+        # Возвращаем скорости левого и правого колес в виде кортежа
+        return left_wheel_speed, right_wheel_speed
+
+    def wayArc(self, value):
+        td = 0.1
+
+        self.newPosition(td, 0, 0)
+        r = value[1]
+        # angle = math.radians(value[2] / 2)
+        angle = value[2]
+        time = value[3]
+
+        Vl, Vr = self.calc_wheel_speeds(r, angle, time)
+
+        tnow = 0
+        while(tnow < time):
+            self.newPosition(td, Vl, Vr)
+            tnow += td
 
 
 
